@@ -75,13 +75,16 @@ allow = [
     "BSD-3-Clause",
     "BSD-2-Clause",
     "MPL-2.0",
-    "CC0-1.0"
+    "CC0-1.0",
+    "Unicode-DFS-2016",
 ]
 
 # List of explicitly disallowed licenses
 # See https://spdx.org/licenses/ for list of possible licenses
 # [possible values: any SPDX 3.11 short identifier (+ optional exception)].
 deny = [
+    "GPL-2.0",
+    "GPL-3.0",
     #"Nokia",
 ]
 

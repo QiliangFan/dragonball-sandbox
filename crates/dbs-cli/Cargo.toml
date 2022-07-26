@@ -1,0 +1,61 @@
+[package]
+name = "dbs-cli"
+version = "0.1.0"
+authors = ["Alibaba Dragonball Team"]
+description = "Dragonball Sandbox CLI"
+license = "Apache-2.0"
+edition = "2018"
+homepage = "https://github.com/openanolis/dragonball-sandbox"
+repository = "https://github.com/openanolis/dragonball-sandbox/tree/main/crates/dbs-device"
+keywords = ["dragonball", "secure-sandbox", "CLI"]
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+dbs-address-space = { path = "../dbs-address-space" }
+dbs-allocator = { path = "../dbs-allocator" }
+dbs-arch = { path = "../dbs-arch" }
+dbs-boot = { path = "../dbs-boot" }
+dbs-device = { path = "../dbs-device" }
+dbs-interrupt = { version = "0.1.0", features = ["kvm-irq"] }
+dbs-legacy-devices = { path = "../dbs-legacy-devices" }
+dbs-upcall = { path = "../dbs-upcall", optional = true }
+dbs-utils = { path = "../dbs-utils" }
+dbs-virtio-devices = { path = "../dbs-virtio-devices", optional = true, features = ["virtio-mmio"] }
+clap = { version = "3.2.14", features = ["derive"] }
+vm-memory = { version = "~0.7.0", features = ["backend-mmap", "backend-atomic"] }
+vmm-sys-util = "0.10.0"
+virtio-queue = { version = "0.4.0", optional = true }
+event-manager = "0.2.1"
+log = "0.4.17"
+nix = "0.24.2"
+kvm-bindings = "0.5.0"
+kvm-ioctls = "0.11.0"
+thiserror = "1.0.31"
+seccompiler = "0.2.0"
+serde = "1.0.140"
+serde_derive = "1.0.140"
+serde_json = "1.0.82"
+slog = "2.7.0"
+slog-scope = "4.4.0"
+libc = "0.2.126"
+bytes = "1.2.0"
+arc-swap = "1.5.0"
+lazy_static = "0.2.11"
+linux-loader = "0.4.0"
+
+[dev-dependencies]
+slog-term = "2.9.0"
+slog-async = "2.7.0"
+
+[features]
+acpi = []
+atomic-guest-memory = []
+hotplug = ["virtio-vsock"]
+virtio-vsock = ["dbs-virtio-devices/virtio-vsock", "virtio-queue"]
+virtio-blk = ["dbs-virtio-devices/virtio-blk", "virtio-queue"]
+virtio-net = ["dbs-virtio-devices/virtio-net", "virtio-queue"]
+# virtio-fs only work on atomic-guest-memory
+virtio-fs = ["dbs-virtio-devices/virtio-fs", "virtio-queue", "atomic-guest-memory"]
+backend-atomic = []

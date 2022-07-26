@@ -70,11 +70,11 @@ mod tests {
     fn test_error_code() {
         let e = AddressSpaceError::InvalidRegionType;
 
-        assert_eq!(format!("{}", e), "invalid address space region type");
+        assert_eq!(format!("{:?}", e), "invalid address space region type");
         assert_eq!(format!("{:?}", e), "InvalidRegionType");
         assert_eq!(
             format!(
-                "{}",
+                "{:?}",
                 AddressSpaceError::InvalidMemorySourceType("test".to_string())
             ),
             "invalid memory source type test"

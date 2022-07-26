@@ -139,7 +139,7 @@ pub fn initrd_load_addr<M: GuestMemory>(guest_mem: &M, initrd_size: u64) -> Resu
     }
 
     let align_to_pagesize = |address| address & !(PAGE_SIZE as u64 - 1);
-    Ok(align_to_pagesize(lowmem_size - initrd_size))
+    Ok(align_to_pagesize(lowmem_size - initrd_size) as u64)
 }
 
 /// Returns the memory address where the kernel could be loaded.
@@ -278,7 +278,7 @@ mod tests {
             BOOT_GDT_OFFSET,
             BOOT_IDT_OFFSET,
         )
-        .unwrap();
+            .unwrap();
         let sregs: kvm_sregs = vcpu.get_sregs().unwrap();
         validate_page_tables(&gm, &sregs, Some(page_address));
     }
@@ -304,7 +304,7 @@ mod tests {
             e820_table[0].size,
             e820_table[0].type_,
         )
-        .unwrap();
+            .unwrap();
         assert_eq!(
             format!("{:?}", params.e820_table[0]),
             format!("{:?}", expected_params.e820_table[0])
@@ -318,8 +318,8 @@ mod tests {
             &mut params,
             e820_table[0].addr,
             e820_table[0].size,
-            e820_table[0].type_
+            e820_table[0].type_,
         )
-        .is_err());
+            .is_err());
     }
 }

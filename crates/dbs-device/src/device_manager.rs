@@ -623,7 +623,7 @@ mod tests {
 
         assert!(err.source().is_none());
         assert_eq!(
-            format!("{}", err),
+            format!("{:?}", err),
             "device address conflicts with existing devices"
         );
 

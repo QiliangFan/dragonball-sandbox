@@ -1,0 +1,29 @@
+[package]
+name = "blobfs"
+version = "0.1.0"
+authors = ["The Nydus Developers"]
+edition = "2018"
+license = "Apache-2.0 OR BSD-3-Clause"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+log = "0.4.8"
+serde = { version = "1.0.110", features = ["serde_derive", "rc"] }
+serde_json = "1.0.53"
+serde_with = { version = "1.6.0", features = ["macros"] }
+libc = "0.2"
+vm-memory = { version = "0.7.0" }
+fuse-backend-rs = { version = "0.9.0" }
+
+rafs = { path = "../rafs" }
+nydus-error = { path = "../error" }
+storage = { path = "../storage", features = ["backend-localfs"] }
+
+[features]
+virtiofs = [ "fuse-backend-rs/virtiofs", "rafs/virtio-fs" ]
+backend-oss = ["rafs/backend-oss"]
+backend-registry = ["rafs/backend-registry"]
+
+[dev-dependencies]
+nydus-app = { version = "0.2", path = "../app" }

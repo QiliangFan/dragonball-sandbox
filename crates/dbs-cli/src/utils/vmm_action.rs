@@ -394,13 +394,13 @@ impl VmmService {
         config.cpu_pm = machine_config.cpu_pm;
         config.mem_type = machine_config.mem_type;
 
-        let mem_size_mib_value = machine_config.mem_size_mib;
+        let mem_size_value = machine_config.mem_size;
         // Support 1TB memory at most, 2MB aligned for huge page.
-        if mem_size_mib_value == 0 || mem_size_mib_value > 0x10_0000 || mem_size_mib_value % 2 != 0
+        if mem_size_value == 0 || mem_size_value > 0x10_0000 || mem_size_value % 2 != 0
         {
-            return Err(MachineConfig(InvalidMemorySize(mem_size_mib_value)));
+            return Err(MachineConfig(InvalidMemorySize(mem_size_value)));
         }
-        config.mem_size_mib = mem_size_mib_value;
+        config.mem_size = mem_size_value;
 
         config.mem_file_path = machine_config.mem_file_path.clone();
 

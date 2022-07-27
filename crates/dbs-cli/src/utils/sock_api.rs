@@ -1,33 +1,35 @@
 use std::os::unix::net::{UnixListener, UnixStream};
 use super::SOCK_PATH;
 use std::io::{Error, Write};
+use std::process::exit;
+use serde_json::{from_str, to_string};
 
-pub fn send(msg: u8, time_out: Option<u32>) {
 
+pub fn send(msg: &[u8]) -> Result<(), Error> {
+    let mut sock = UnixStream::connect(SOCK_PATH)?;
+    sock.write_all(msg)?;
+    Ok(())
 }
-
 
 pub fn bind() -> Result<UnixListener, Error>  {
     let mut sock_file = std::path::Path::new(SOCK_PATH);
     if sock_file.exists() {
-        let mut sniffer = UnixStream::connect(SOCK_PATH)?;
-        let timeout = std::time::Duration::from_millis(2000);
-        sniffer.set_write_timeout(Option::Some(timeout))?;
-        match sniffer.write_all(b"Are you ok?") {
-            Ok(soc) => {
-                println!("Rebinding to existing socket channel...")
-            }
+        match UnixStream::connect(SOCK_PATH) {
+            Ok(sc) => {
+                println!("Socket is already bound!");
+            },
             Err(err) => {
-                println!("Redundant socks detected => removing");
+                println!("Redundant socks detected, removing...");
                 std::fs::remove_file(sock_file)?;
+                let mut soc = UnixListener::bind(SOCK_PATH)?;
+                println!("Successfully rebind socket.");
+                return Ok(soc);
             }
-        }
+        };
     }
-
-    let mut soc = UnixListener::bind(SOCK_PATH)?;
-    Ok(soc)
+    // exit(2)
+    panic!("ss")
 }
-
 
 fn connect() -> Result<UnixStream, Error> {
     let mut soc = UnixStream::connect(SOCK_PATH)?;

@@ -106,7 +106,7 @@ impl Default for CpuTopology {
 }
 
 /// Configuration information for virtual machine instance.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct VmConfigInfo {
     /// Number of vcpu to start.
     pub vcpu: u8,
@@ -124,7 +124,7 @@ pub struct VmConfigInfo {
     /// Memory file path
     pub mem_file_path: String,
     /// The memory size in MiB.
-    pub mem_size_mib: usize,
+    pub mem_size: usize,
 
     /// sock path
     pub serial_path: Option<String>,
@@ -145,7 +145,7 @@ impl Default for VmConfigInfo {
             vpmu_feature: 0,
             mem_type: String::from("shmem"),
             mem_file_path: String::from(""),
-            mem_size_mib: 128,
+            mem_size: 128,
             serial_path: None,
         }
     }
@@ -517,7 +517,7 @@ impl Vm {
         }
 
         // vcpu boot up require local memory. reserve 100 MiB memory
-        let mem_size = (self.vm_config.mem_size_mib as u64) << 20;
+        let mem_size = (self.vm_config.mem_size as u64) << 20;
 
         let mem_type = self.vm_config.mem_type.clone();
         let mut mem_file_path = String::from("");
@@ -536,7 +536,7 @@ impl Vm {
         // init default regions.
         let mut numa_regions = Vec::with_capacity(1);
         let numa_node = NumaRegionInfo {
-            size: self.vm_config.mem_size_mib as u64,
+            size: self.vm_config.mem_size as u64,
             host_numa_node_id: None,
             guest_numa_node_id: Some(0),
             vcpu_ids,

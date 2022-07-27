@@ -18,6 +18,7 @@ use crate::utils::info::{InstanceInfo};
 use crate::utils::error::{EpollError, Result};
 use self::event_manager::{EventContext, EventManager};
 use self::vm::Vm;
+use crate::utils::vmm_action::VmmService;
 
 pub mod vm;
 pub mod address_space_manager;
@@ -29,8 +30,8 @@ pub mod metric;
 pub mod kvm_context;
 pub mod signal_handler;
 
-mod event_manager;
-mod io_manager;
+pub mod event_manager;
+pub mod io_manager;
 
 pub use crate::utils::error::StartMicroVmError;
 pub use self::io_manager::IoManagerCached;

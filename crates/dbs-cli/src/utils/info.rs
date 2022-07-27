@@ -43,8 +43,6 @@ pub enum AsyncState {
 /// The strongly typed that contains general information about the microVM.
 #[derive(Debug, Deserialize, Serialize)]
 pub struct InstanceInfo {
-    /// The name of the microVM
-    pub name: String,
     /// The ID of the microVM.
     pub id: String,
     /// The state of the microVM.
@@ -65,7 +63,6 @@ impl InstanceInfo {
     /// create instance info object with given id, version, and platform type
     pub fn new(name: String, id: String, vmm_version: String) -> Self {
         InstanceInfo {
-            name,
             id,
             state: InstanceState::Uninitialized,
             vmm_version,
@@ -81,7 +78,6 @@ impl InstanceInfo {
 impl Default for InstanceInfo {
     fn default() -> Self {
         InstanceInfo {
-            name: String::from(""),
             id: String::from(""),
             state: InstanceState::Uninitialized,
             vmm_version: env!("CARGO_PKG_VERSION").to_string(),

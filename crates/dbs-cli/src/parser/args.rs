@@ -42,6 +42,8 @@ pub struct CreateArgs {
     pub max_vcpu: u8,
     #[clap(long, value_parser, default_value = "on", help = "The cpu power management", display_order = 1)]
     pub cpu_pm: String,
+    #[clap(long, value_parser, default_value = 0, help = "vpmu support level", display_order = 1)]
+    pub vpmu_feature: u8,
     #[clap(flatten)]
     pub cpu_topology: CpuTopologyArgs,
 
@@ -53,8 +55,6 @@ pub struct CreateArgs {
     #[clap(short, long, value_parser, default_value_t = 128, help = "The memory size in Mib", display_order = 2)]
     pub mem_size: usize,
 
-    #[clap(short, long, value_parser, default_value = "/var/run/dbs.socks", help = "The sock path", display_order = 3)]
-    pub serial_path: PathBuf,
 }
 
 /// Config boot source including rootfs file path

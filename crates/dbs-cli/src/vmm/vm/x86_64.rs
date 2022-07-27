@@ -223,8 +223,8 @@ impl Vm {
             cmdline_addr,
             cmdline.as_str().len() + 1,
             &initrd,
-            self.vm_config.vcpu_count,
-            self.vm_config.max_vcpu_count,
+            self.vm_config.vcpu,
+            self.vm_config.max_vcpu,
         )
             .map_err(StartMicroVmError::ConfigureSystem)
     }

@@ -229,7 +229,7 @@ impl VcpuManager {
         epoll_manager: EpollManager,
     ) -> Result<Arc<Mutex<Self>>> {
         let support_immediate_exit = kvm_context.kvm().check_extension(Cap::ImmediateExit);
-        let max_vcpu_count = vm_config_info.max_vcpu_count;
+        let max_vcpu_count = vm_config_info.max_vcpu;
         let kvm_max_vcpu_count = kvm_context.get_max_vcpus();
 
         // check the max vcpu count in kvm. max_vcpu_count is u8 and kvm_context.get_max_vcpus()
@@ -271,7 +271,7 @@ impl VcpuManager {
         let vcpu_manager = Arc::new(Mutex::new(VcpuManager {
             vcpu_infos,
             vcpu_config: VcpuConfig {
-                boot_vcpu_count: vm_config_info.vcpu_count,
+                boot_vcpu_count: vm_config_info.vcpu,
                 max_vcpu_count,
                 threads_per_core: vm_config_info.cpu_topology.threads_per_core,
                 cores_per_die: vm_config_info.cpu_topology.cores_per_die,

@@ -109,9 +109,9 @@ impl Default for CpuTopology {
 #[derive(Clone, Debug, PartialEq)]
 pub struct VmConfigInfo {
     /// Number of vcpu to start.
-    pub vcpu_count: u8,
+    pub vcpu: u8,
     /// Max number of vcpu can be added
-    pub max_vcpu_count: u8,
+    pub max_vcpu: u8,
     /// cpu power management.
     pub cpu_pm: String,
     /// cpu topology information
@@ -133,8 +133,8 @@ pub struct VmConfigInfo {
 impl Default for VmConfigInfo {
     fn default() -> Self {
         VmConfigInfo {
-            vcpu_count: 1,
-            max_vcpu_count: 1,
+            vcpu: 1,
+            max_vcpu: 1,
             cpu_pm: String::from("on"),
             cpu_topology: CpuTopology {
                 threads_per_core: 1,
@@ -529,7 +529,7 @@ impl Vm {
         }
 
         let mut vcpu_ids: Vec<u32> = Vec::new();
-        for i in 0..self.vm_config().max_vcpu_count {
+        for i in 0..self.vm_config().max_vcpu {
             vcpu_ids.push(i as u32);
         }
 

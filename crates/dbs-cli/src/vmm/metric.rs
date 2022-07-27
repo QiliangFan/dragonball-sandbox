@@ -4,16 +4,17 @@
 
 use dbs_utils::metric::SharedIncMetric;
 use serde::Serialize;
+// use lazy_static::lazy_static;
 
 pub use dbs_utils::metric::IncMetric;
 
 // use lazy_static::lazy_static;
-// lazy_static!{
-//     /// Static instance used for handling metrics.
-//     pub static ref METICS: DragonballMetrics = DragonballMetrics::default();
-// }
+lazy_static! {
+    /// Static instance used for handling metrics.
+    pub static ref METRICS: DragonballMetrics = DragonballMetrics::default();
+}
 
-pub static METRICS: DragonballMetrics = DragonballMetrics::default();
+// pub static METRICS: DragonballMetrics = DragonballMetrics::default();
 
 /// Metrics specific to VCPUs' mode of functioning.
 #[derive(Default, Serialize)]

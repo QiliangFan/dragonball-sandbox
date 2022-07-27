@@ -193,7 +193,7 @@ impl Vm {
         }
 
         let vm_memory = vm_as.memory();
-        let kernel_loader_result = self.load_kernel(vm_memory.deref());
+        let kernel_loader_result = self.load_kernel(vm_memory.deref())?;
         self.vcpu_manager()
             .map_err(StartMicroVmError::Vcpu)?
             .create_boot_vcpus(request_ts, kernel_loader_result.kernel_load)

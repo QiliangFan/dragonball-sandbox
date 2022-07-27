@@ -1,4 +1,3 @@
-use std::path::PathBuf;
 // use clap::Parser;
 use clap::{Args};
 
@@ -42,7 +41,7 @@ pub struct CreateArgs {
     pub max_vcpu: u8,
     #[clap(long, value_parser, default_value = "on", help = "The cpu power management", display_order = 1)]
     pub cpu_pm: String,
-    #[clap(long, value_parser, default_value = 0, help = "vpmu support level", display_order = 1)]
+    #[clap(long, value_parser, default_value_t = 0, help = "vpmu support level", display_order = 1)]
     pub vpmu_feature: u8,
     #[clap(flatten)]
     pub cpu_topology: CpuTopologyArgs,

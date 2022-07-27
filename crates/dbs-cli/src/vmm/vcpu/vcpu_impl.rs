@@ -15,6 +15,8 @@ use std::sync::mpsc::{Receiver, Sender, TryRecvError};
 use std::sync::{Arc, Barrier};
 use std::thread;
 
+use crate::vmm::metric::{IncMetric, METRICS};
+
 use dbs_utils::time::TimestampUs;
 use kvm_bindings::{KVM_SYSTEM_EVENT_RESET, KVM_SYSTEM_EVENT_SHUTDOWN};
 use kvm_ioctls::{VcpuExit, VcpuFd};
@@ -25,7 +27,6 @@ use vmm_sys_util::eventfd::EventFd;
 use vmm_sys_util::signal::{register_signal_handler, Killable};
 
 use super::sm::StateMachine;
-use crate::vmm::metric::{IncMetric, METRICS};
 use crate::vmm::signal_handler::sigrtmin;
 use crate::vmm::io_manager::IoManagerCached;
 
@@ -763,7 +764,7 @@ impl Drop for Vcpu {
 
 #[cfg(test)]
 pub mod tests {
-    use std::ops::Deref;
+    // use std::ops::Deref;
     use std::os::unix::io::AsRawFd;
     use std::sync::mpsc::{channel, Receiver};
     use std::sync::Mutex;
@@ -771,7 +772,7 @@ pub mod tests {
     use arc_swap::ArcSwap;
     use dbs_device::device_manager::IoManager;
     use kvm_ioctls::Kvm;
-    use lazy_static::lazy_static;
+    // use lazy_static::lazy_static;
 
     use super::*;
     use crate::vmm::kvm_context::KvmContext;

@@ -11,5 +11,5 @@ pub use command::CliSub;
 #[clap(author, version, about, long_about = None)]
 pub struct Cli {
     #[clap(subcommand)]
-    command: CliSub,
+    pub command: CliSub,
 }

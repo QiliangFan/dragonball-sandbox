@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Alibaba Dragonball Team"]
 description = "Dragonball Sandbox CLI"
 license = "Apache-2.0"
-edition = "2018"
+edition = "2021"
 homepage = "https://github.com/openanolis/dragonball-sandbox"
 repository = "https://github.com/openanolis/dragonball-sandbox/tree/main/crates/dbs-device"
 keywords = ["dragonball", "secure-sandbox", "CLI"]
@@ -18,13 +18,13 @@ dbs-allocator = { path = "../dbs-allocator" }
 dbs-arch = { path = "../dbs-arch" }
 dbs-boot = { path = "../dbs-boot" }
 dbs-device = { path = "../dbs-device" }
-dbs-interrupt = { version = "0.1.0", features = ["kvm-irq"] }
+dbs-interrupt = { path = "../dbs-interrupt", features = ["kvm-irq"] }
 dbs-legacy-devices = { path = "../dbs-legacy-devices" }
 dbs-upcall = { path = "../dbs-upcall", optional = true }
 dbs-utils = { path = "../dbs-utils" }
 dbs-virtio-devices = { path = "../dbs-virtio-devices", optional = true, features = ["virtio-mmio"] }
 clap = { version = "3.2.14", features = ["derive"] }
-vm-memory = { version = "~0.7.0", features = ["backend-mmap", "backend-atomic"] }
+vm-memory = { version = "0.7.0", features = ["backend-mmap", "backend-atomic"] }
 vmm-sys-util = "0.10.0"
 virtio-queue = { version = "0.4.0", optional = true }
 event-manager = "0.2.1"
@@ -34,16 +34,17 @@ kvm-bindings = "0.5.0"
 kvm-ioctls = "0.11.0"
 thiserror = "1.0.31"
 seccompiler = "0.2.0"
-serde = "1.0.140"
-serde_derive = "1.0.140"
-serde_json = "1.0.82"
-slog = "2.7.0"
+serde = "1.0.27"
+serde_derive = "1.0.27"
+serde_json = "1.0.9"
+slog = "2.5.2"
 slog-scope = "4.4.0"
-libc = "0.2.126"
-bytes = "1.2.0"
+libc = "0.2.39"
+bytes = "1.1.0"
 arc-swap = "1.5.0"
-lazy_static = "0.2.11"
-linux-loader = "0.4.0"
+lazy_static = "1.2"
+#linux-loader = "0.4.0"
+linux-loader = { git = "https://github.com/QiliangFan/linux-loader" }
 
 [dev-dependencies]
 slog-term = "2.9.0"
@@ -59,3 +60,6 @@ virtio-net = ["dbs-virtio-devices/virtio-net", "virtio-queue"]
 # virtio-fs only work on atomic-guest-memory
 virtio-fs = ["dbs-virtio-devices/virtio-fs", "virtio-queue", "atomic-guest-memory"]
 backend-atomic = []
+
+#[patch.crates-io]
+#linux-loader = { git = "https://github.com/QiliangFan/linux-loader" }

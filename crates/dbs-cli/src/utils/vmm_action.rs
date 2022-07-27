@@ -347,28 +347,28 @@ impl VmmService {
 
         // If the check is successful, set it up together.
         let mut config = vm.vm_config().clone();
-        if config.vcpu_count != machine_config.vcpu_count {
-            let vcpu_count = machine_config.vcpu_count;
+        if config.vcpu != machine_config.vcpu {
+            let vcpu = machine_config.vcpu;
             // Check that the vcpu_count value is >=1.
-            if vcpu_count == 0 {
-                return Err(MachineConfig(InvalidVcpuCount(vcpu_count)));
+            if vcpu == 0 {
+                return Err(MachineConfig(InvalidVcpuCount(vcpu)));
             }
-            config.vcpu_count = vcpu_count;
+            config.vcpu = vcpu;
         }
 
         if config.cpu_topology != machine_config.cpu_topology {
             let cpu_topology = &machine_config.cpu_topology;
-            config.cpu_topology = handle_cpu_topology(cpu_topology, config.vcpu_count)?.clone();
+            config.cpu_topology = handle_cpu_topology(cpu_topology, config.vcpu)?.clone();
         } else {
             // the same default
             let mut default_cpu_topology = CpuTopology {
                 threads_per_core: 1,
-                cores_per_die: config.vcpu_count,
+                cores_per_die: config.vcpu,
                 dies_per_socket: 1,
                 sockets: 1,
             };
-            if machine_config.max_vcpu_count > config.vcpu_count {
-                default_cpu_topology.cores_per_die = machine_config.max_vcpu_count;
+            if machine_config.max_vcpu > config.vcpu {
+                default_cpu_topology.cores_per_die = machine_config.max_vcpu;
             }
             config.cpu_topology = default_cpu_topology;
         }
@@ -381,15 +381,15 @@ impl VmmService {
         // max_vcpu_count, max_vcpu_count will be changed. currently, max vcpu size
         // is used when cpu_topology is not defined and help define the cores_per_die
         // for the default cpu topology.
-        let mut max_vcpu_count = machine_config.max_vcpu_count;
-        if max_vcpu_count < config.vcpu_count {
-            return Err(MachineConfig(InvalidMaxVcpuCount(max_vcpu_count)));
+        let mut max_vcpu = machine_config.max_vcpu;
+        if max_vcpu < config.vcpu {
+            return Err(MachineConfig(InvalidMaxVcpuCount(max_vcpu)));
         }
-        if max_vcpu_from_topo != max_vcpu_count {
-            max_vcpu_count = max_vcpu_from_topo;
+        if max_vcpu_from_topo != max_vcpu {
+            max_vcpu = max_vcpu_from_topo;
             info!("Since max_vcpu_count is not equal to cpu topo information, we have changed the max vcpu count to {}", max_vcpu_from_topo);
         }
-        config.max_vcpu_count = max_vcpu_count;
+        config.max_vcpu = max_vcpu;
 
         config.cpu_pm = machine_config.cpu_pm;
         config.mem_type = machine_config.mem_type;

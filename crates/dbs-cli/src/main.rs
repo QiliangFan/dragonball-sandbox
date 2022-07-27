@@ -5,8 +5,10 @@ pub mod utils;
 
 use clap::Parser;
 use parser::{Cli, CliSub};
-use crate::utils::info::InstanceInfo;
-use std::sync::mpsc::{channel, Receiver, Sender};
+// use crate::utils::info::InstanceInfo;
+
+#[macro_use]
+extern crate lazy_static;
 
 fn main() {
     let cli = Cli::parse();
